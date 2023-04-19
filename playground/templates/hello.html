@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenLayers Map with GeoServer and OSM Basemap</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v6.5.0/css/ol.css" type="text/css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #map {
+            
+            width: 100%;
+            height: 85%;
+        }
+    </style>
+    <script src="https://openlayers.org/en/v6.5.0/build/ol.js"></script>
+</head>
+<body style="background-color:rgb(180, 222, 224);">
+    
+  <h1>Districts of {{ name }}</h1>
+<div id="map"></div>
+<script>
+    var layers = [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        }),
+        new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: 'http://localhost:8080/geoserver/SD_lab/wms',
+                params: {'LAYERS': 'SD_lab:PAK_adm3'},
+                serverType: 'geoserver'
+            })
+        })
+    ];
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+            center: ol.proj.fromLonLat([70, 30]),
+            zoom: 5
+        })
+    });
+</script>
+</body>
+</html>
